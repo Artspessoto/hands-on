@@ -1,5 +1,5 @@
 # HandsOn <img src="https://github.com/user-attachments/assets/80c730ba-f010-4cbf-b5e5-ef130e13a084" width="50" />
-HandsUp é uma API que conecta voluntários, doadores e líderes comunitários em iniciativas sociais, facilitando a arrecadação de alimentos, roupas e apoio educacional para pessoas em situação de necessidade.
+HandsOn é uma API que conecta voluntários, doadores e líderes comunitários em iniciativas sociais, facilitando a arrecadação de alimentos, roupas e apoio educacional para pessoas em situação de necessidade.
 
 ### Requisitos funcionais
 
