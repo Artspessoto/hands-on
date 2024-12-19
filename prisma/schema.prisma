@@ -8,36 +8,60 @@ datasource db {
 }
 
 model User {
-  id            String     @id @default(uuid())
-  email         String     @unique
-  emailVerified Boolean    @default(false)
-  name          String
-  password      String
-  role          Role
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  Campaign      Campaign[]
+  id                    String     @id @default(uuid())
+  cpf                   String     @unique
+  email                 String     @unique
+  emailVerified         Boolean    @default(false)
+  name                  String
+  password              String
+  role                  Role
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+  CampaignAsLeader      Campaign[] @relation("LeaderOfCampaign")
+  Donation              Donation[]
+  CampaignAsParticipant Campaign[] @relation("CampaignParticipants")
 
   @@map("users")
 }
 
 model Campaign {
-  id          String       @id @default(uuid())
-  title       String
-  description String
-  startDate   DateTime
-  endDate     DateTime
-  targetItems Int?
-  targetMoney Float?
-  type        CampaignType
-  location    String
-  leaderId    String
-  leader      User         @relation(fields: [leaderId], references: [id])
+  id               String       @id @default(uuid())
+  title            String
+  description      String
+  startDate        DateTime
+  endDate          DateTime
+  targetItems      Int?
+  targetMoney      Float?
+  type             CampaignType
+  location         String
+  leaderId         String
+  leader           User         @relation("LeaderOfCampaign", fields: [leaderId], references: [id])
+  participantLimit Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  participants User[]     @relation("CampaignParticipants")
+  Donation     Donation[]
+
   @@map("campaigns")
+}
+
+model Donation {
+  id           String       @id @default(uuid())
+  donorId      String
+  donor        User         @relation(fields: [donorId], references: [id])
+  campaignId   String
+  campaign     Campaign     @relation(fields: [campaignId], references: [id])
+  donation     DonationType
+  donatedItems Int?
+  donatedMoney Float?
+  donationDate DateTime     @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("donations")
 }
 
 enum Role {
