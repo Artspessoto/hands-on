@@ -8,16 +8,36 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-  email String @unique
-  emailVerified Boolean @default(false)
-  name String 
-  password String
-  role Role
+  id            String     @id @default(uuid())
+  email         String     @unique
+  emailVerified Boolean    @default(false)
+  name          String
+  password      String
+  role          Role
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  Campaign      Campaign[]
+
+  @@map("users")
+}
+
+model Campaign {
+  id          String       @id @default(uuid())
+  title       String
+  description String
+  startDate   DateTime
+  endDate     DateTime
+  targetItems Int?
+  targetMoney Float?
+  type        CampaignType
+  location    String
+  leaderId    String
+  leader      User         @relation(fields: [leaderId], references: [id])
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("users")
+  @@map("campaigns")
 }
 
 enum Role {
@@ -25,4 +45,20 @@ enum Role {
   LEADER
   DONOR
   VOLUNTEER
+}
+
+enum CampaignType {
+  FOOD
+  CLOTHING
+  HYGIENE
+  MEDICATION
+  COATS
+  EDUCATIONAL_MATERIAL
+  OTHERS
+}
+
+enum DonationType {
+  ITEMS
+  MONEY
+  BOTH
 }
