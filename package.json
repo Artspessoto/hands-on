@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
-    "build": "tsup src --out-dir build"
+    "build": "tsup src --out-dir build",
+    "prisma:init": "npx prisma init",
+    "prisma:generate": "npx prisma generate",
+    "prisma:migrate": "npx prisma migrate"
   },
   "keywords": [
     "api",
