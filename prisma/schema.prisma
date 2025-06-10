@@ -8,18 +8,19 @@ datasource db {
 }
 
 model User {
-  id                    String     @id @default(uuid())
-  cpf                   String     @unique
-  email                 String     @unique
-  emailVerified         Boolean    @default(false)
+  id                    String           @id @default(uuid())
+  cpf                   String           @unique
+  email                 String           @unique
+  emailVerified         Boolean          @default(false)
   name                  String
   password              String
   role                  Role
-  createdAt             DateTime   @default(now())
-  updatedAt             DateTime   @updatedAt
-  CampaignAsLeader      Campaign[] @relation("LeaderOfCampaign")
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+  CampaignAsLeader      Campaign[]       @relation("LeaderOfCampaign")
   Donation              Donation[]
-  CampaignAsParticipant Campaign[] @relation("CampaignParticipants")
+  CampaignAsParticipant Campaign[]       @relation("CampaignParticipants")
+  volunteerEvents       VolunteerEvent[] @relation("VolunteerEventVolunteers")
 
   @@map("users")
 }
@@ -41,10 +42,28 @@ model Campaign {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  participants User[]     @relation("CampaignParticipants")
-  Donation     Donation[]
+  participants   User[]           @relation("CampaignParticipants")
+  Donation       Donation[]
+  VolunteerEvent VolunteerEvent[]
 
   @@map("campaigns")
+}
+
+model VolunteerEvent {
+  id            String   @id @default(uuid())
+  title         String
+  description   String
+  date          DateTime
+  location      String
+  campaignId    String
+  campaign      Campaign @relation(fields: [campaignId], references: [id])
+  maxVolunteers Int
+  volunteers    User[]   @relation("VolunteerEventVolunteers")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("volunteer_events")
 }
 
 model Donation {
