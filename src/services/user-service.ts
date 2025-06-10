@@ -2,6 +2,7 @@ import { compare, hash } from "bcrypt";
 import UserRepository from "../repositories/user-repository";
 import { AppError } from "../utils/AppError";
 import { User, userSchema } from "../validations/schemas/user-schema";
+import { encrypt } from "../utils/crypto";
 
 class UserService {
   private userRepository: UserRepository;
@@ -29,12 +30,14 @@ class UserService {
     const hashedPassword = await hash(data.password, 8);
 
     const { name, email, cpf, role } = data;
+
     const cleanCpf = cpf.replace(/\D/g, "");
+    const encryptedCpf = encrypt(cleanCpf);
 
     const newUser = await this.userRepository.create({
       name,
       email,
-      cpf: cleanCpf,
+      cpf: encryptedCpf,
       role,
       password: hashedPassword,
     });
