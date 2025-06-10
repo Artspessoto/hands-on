@@ -25,6 +25,7 @@
   "author": "Arthur Martins Lopes Spessoto",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcrypt": "5.0.2",
     "@types/node": "22.10.2",
     "prisma": "6.1.0",
     "tsup": "8.3.5",
@@ -33,6 +34,7 @@
   },
   "dependencies": {
     "@prisma/client": "6.1.0",
+    "bcrypt": "6.0.0",
     "dotenv": "16.4.7",
     "fastify": "5.2.0",
     "zod": "3.24.1"
