@@ -9,7 +9,8 @@
     "build": "tsup src --out-dir build",
     "prisma:init": "npx prisma init",
     "prisma:generate": "npx prisma generate",
-    "prisma:migrate": "npx prisma migrate"
+    "prisma:migrate": "npx prisma migrate",
+    "prisma:studio": "npx prisma studio"
   },
   "keywords": [
     "api",
