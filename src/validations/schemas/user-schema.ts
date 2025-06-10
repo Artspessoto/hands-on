@@ -12,7 +12,7 @@ export const userSchema = z.object({
     .email("O formato do e-mail é inválido")
     .max(256, "O e-mail pode conter no máximo 256 caracteres"),
   emailVerified: z.boolean().optional(),
-  role: z.enum(["ADMIN", "LEADER", "DONOR", "VOLUNTEER"]),
+  role: z.enum(["ADMIN", "LEADER", "DONOR", "VOLUNTEER"]).default("DONOR"),
   password: z
     .string()
     .min(6, "A senha deve conter pelo menos 6 caracteres")
