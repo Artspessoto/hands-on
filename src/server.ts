@@ -1,5 +1,5 @@
 import { app } from "./app";
-import { env } from "./env";
+import { env } from "./validations/env";
 
 const start = () => {
   try {

@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { env } from "../env";
+import { env } from "../validations/env";
 
 const isDev = env.NODE_ENV == "dev";
 
