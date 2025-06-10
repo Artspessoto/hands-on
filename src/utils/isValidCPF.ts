@@ -1,5 +1,5 @@
 export default function isValidCPF(cpf: string): boolean {
-  const cleanCPF = cpf.replace("/D/g", "");
+  const cleanCPF = cpf.replace(/\D/g, "");
 
   if (cleanCPF.length !== 11 || /^(\d)\1{10}$/.test(cleanCPF)) {
     return false;
@@ -7,11 +7,11 @@ export default function isValidCPF(cpf: string): boolean {
 
   let sum = 0;
   for (let i = 0; i < 9; i++) {
-    sum += parseInt(cleanCPF.charAt(i)) * (10 - 1);
+    sum += parseInt(cleanCPF.charAt(i)) * (10 - i);
   }
 
   let rest = (sum * 10) % 11;
-  if (rest == 10 || rest == 11) rest = 0;
+  if (rest === 10 || rest === 11) rest = 0;
   if (rest !== parseInt(cleanCPF.charAt(9))) return false;
 
   sum = 0;
