@@ -19,4 +19,9 @@ export const userSchema = z.object({
     .max(16, "A senha pode conter no máximo 16 caracteres"),
 });
 
+export const publicUserSchema = userSchema.extend({
+  role: z.enum(["DONOR", "VOLUNTEER"]).default("DONOR"),
+});
+
 export type User = z.infer<typeof userSchema>;
+export type PublicUser = z.infer<typeof publicUserSchema>;
