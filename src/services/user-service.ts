@@ -12,7 +12,7 @@ class UserService {
   }
 
   public async createUser(data: User): Promise<User> {
-    const { success, error } = userSchema.safeParse(data);
+    const { success, error, data: userData } = userSchema.safeParse(data);
 
     if (!success) {
       throw new AppError(
@@ -21,17 +21,16 @@ class UserService {
       );
     }
 
-    const emailExists = await this.userRepository.findByEmail(data.email);
+    const emailExists = await this.userRepository.findByEmail(userData.email);
 
     if (emailExists) {
       throw new AppError("Este e-mail já está em uso");
     }
 
-    const hashedPassword = await hash(data.password, 8);
-
-    const { name, email, cpf, role } = data;
+    const { name, email, cpf, role, password } = userData;
 
     const cleanCpf = cpf.replace(/\D/g, "");
+    const hashedPassword = await hash(password, 8);
     const encryptedCpf = encrypt(cleanCpf);
 
     const newUser = await this.userRepository.create({
