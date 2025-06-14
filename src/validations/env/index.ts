@@ -10,6 +10,7 @@ const envSchema = z.object({
   IV_KEY: z
     .string()
     .length(16, "A IV_KEY deve ter exatamente 16 caracteres (bytes)"),
+  JWT_SECRET: z.string(),
 });
 
 const _env = envSchema.safeParse(process.env);
