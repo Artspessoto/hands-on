@@ -10,7 +10,7 @@ class UserRepository {
       where: { id: userId },
     });
   }
-  async create(data: User) {
+  async create(data: User): Promise<User> {
     const user = await prisma.user.create({ data });
     return user;
   }

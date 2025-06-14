@@ -1,7 +1,11 @@
 import { compare, hash } from "bcrypt";
 import UserRepository from "../repositories/user-repository";
 import { AppError } from "../utils/AppError";
-import { User, userSchema } from "../validations/schemas/user-schema";
+import {
+  PublicUser,
+  publicUserSchema,
+  User,
+} from "../validations/schemas/user-schema";
 import { encrypt } from "../utils/crypto";
 
 class UserService {
@@ -11,8 +15,8 @@ class UserService {
     this.userRepository = new UserRepository();
   }
 
-  public async createUser(data: User): Promise<User> {
-    const { success, error, data: userData } = userSchema.safeParse(data);
+  public async createUser(data: PublicUser): Promise<User> {
+    const { success, error, data: userData } = publicUserSchema.safeParse(data);
 
     if (!success) {
       throw new AppError(
@@ -27,17 +31,15 @@ class UserService {
       throw new AppError("Este e-mail já está em uso");
     }
 
-    const { name, email, cpf, role, password } = userData;
-
-    const cleanCpf = cpf.replace(/\D/g, "");
-    const hashedPassword = await hash(password, 8);
+    const cleanCpf = userData.cpf.replace(/\D/g, "");
+    const hashedPassword = await hash(userData.password, 8);
     const encryptedCpf = encrypt(cleanCpf);
 
     const newUser = await this.userRepository.create({
-      name,
-      email,
+      name: userData.name,
+      email: userData.email,
       cpf: encryptedCpf,
-      role,
+      role: userData.role,
       password: hashedPassword,
     });
 

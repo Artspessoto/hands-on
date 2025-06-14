@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import UserService from "../services/user-service";
-import { userSchema } from "../validations/schemas/user-schema";
+import { publicUserSchema } from "../validations/schemas/user-schema";
 import { AppError } from "../utils/AppError";
 
 class UserController {
@@ -11,7 +11,7 @@ class UserController {
   }
 
   async create(req: FastifyRequest, reply: FastifyReply) {
-    const { success, error, data } = userSchema.safeParse(req.body);
+    const { success, error, data } = publicUserSchema.safeParse(req.body);
 
     if (!success) {
       throw new AppError(error.errors.map((err) => err.message).join(", "));
