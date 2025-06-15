@@ -6,6 +6,7 @@ export interface AuthUserPayload {
   email: string;
   iat: number;
   exp: number;
+  purpose: string
 }
 
 export const ensureAuthenticated = async (
