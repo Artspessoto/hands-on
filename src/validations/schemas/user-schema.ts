@@ -11,7 +11,7 @@ export const userSchema = z.object({
     .string()
     .email("O formato do e-mail é inválido")
     .max(256, "O e-mail pode conter no máximo 256 caracteres"),
-  emailVerified: z.boolean().optional(),
+  emailVerified: z.boolean().optional().default(false),
   role: z.enum(["ADMIN", "LEADER", "DONOR", "VOLUNTEER"]).default("DONOR"),
   password: z
     .string()
@@ -19,9 +19,14 @@ export const userSchema = z.object({
     .max(16, "A senha pode conter no máximo 16 caracteres"),
 });
 
-export const publicUserSchema = userSchema.extend({
-  role: z.enum(["DONOR", "VOLUNTEER"]).default("DONOR"),
-});
+export const publicUserSchema = userSchema
+  .omit({
+    emailVerified: true,
+    role: true,
+  })
+  .extend({
+    role: z.enum(["DONOR", "VOLUNTEER"]).default("DONOR"),
+  });
 
 export type User = z.infer<typeof userSchema>;
 export type PublicUser = z.infer<typeof publicUserSchema>;

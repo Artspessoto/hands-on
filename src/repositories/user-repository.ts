@@ -1,5 +1,5 @@
 import prisma from "../database/prismaClient";
-import { User } from "../validations/schemas/user-schema";
+import { User, PublicUser } from "../validations/schemas/user-schema";
 
 class UserRepository {
   async findByEmail(email: string) {
@@ -10,7 +10,7 @@ class UserRepository {
       where: { id: userId },
     });
   }
-  async create(data: User): Promise<User> {
+  async create(data: PublicUser): Promise<User> {
     const user = await prisma.user.create({ data });
     return user;
   }
