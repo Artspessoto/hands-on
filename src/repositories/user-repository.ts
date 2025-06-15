@@ -21,6 +21,12 @@ class UserRepository {
     });
     return user;
   }
+  async verifyUserEmail(userId: string) {
+    await prisma.user.update({
+      where: { id: userId },
+      data: { emailVerified: true },
+    });
+  }
   async list() {
     const users = await prisma.user.findMany();
     return users;
