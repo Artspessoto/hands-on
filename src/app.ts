@@ -4,6 +4,7 @@ import { errorHandler } from "./utils/errorHandler";
 import cors from "@fastify/cors";
 import { cookiePlugin } from "./plugins/cookiePlugin";
 import { jwtPlugin } from "./plugins/jwtPlugin";
+import { swaggerPlugin } from "./plugins/swaggerPlugin";
 
 export const app = fastify();
 
@@ -16,6 +17,7 @@ app.register(cors, {
 
 cookiePlugin(app);
 jwtPlugin(app);
+swaggerPlugin(app);
 
 app.register(routes);
 app.setErrorHandler(errorHandler);
