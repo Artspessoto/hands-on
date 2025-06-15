@@ -7,12 +7,16 @@ import {
   User,
 } from "../validations/schemas/user-schema";
 import { encrypt } from "../utils/crypto";
+import EmailService from "./email-service";
+import { app } from "../app";
 
 class UserService {
   private userRepository: UserRepository;
+  private emailService: EmailService;
 
   constructor() {
     this.userRepository = new UserRepository();
+    this.emailService = new EmailService();
   }
 
   public async createUser(data: PublicUser): Promise<User> {
@@ -42,6 +46,16 @@ class UserService {
       role: userData.role,
       password: hashedPassword,
     });
+
+    const verificationToken = app.jwt.sign(
+      { id: newUser.id, purpose: "email_verification" },
+      { expiresIn: "1d" }
+    );
+
+    await this.emailService.sendVerificationEmail(
+      newUser.email,
+      verificationToken
+    );
 
     return newUser;
   }
