@@ -11,6 +11,10 @@ const envSchema = z.object({
     .string()
     .length(16, "A IV_KEY deve ter exatamente 16 caracteres (bytes)"),
   JWT_SECRET: z.string(),
+  SMTP_HOST: z.string().default("smtp.gmail.com"),
+  SMTP_PORT: z.coerce.number().default(587),
+  SMTP_USER: z.string().email(),
+  SMTP_PASS: z.string()
 });
 
 const _env = envSchema.safeParse(process.env);
